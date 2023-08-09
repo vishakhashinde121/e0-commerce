@@ -21,7 +21,7 @@ const Catagory = () => {
     <>
       <div className="container">
 
-        <div className="row">
+        <div className="row"></div>
         <CataSlider/>
       </div>
     <div className="container">
