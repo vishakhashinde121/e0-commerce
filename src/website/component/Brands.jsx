@@ -39,6 +39,7 @@ const Brands = () => {
           1024: { items: 3 },
         }}
         autoPlay
+        
         autoPlayInterval={3000} // Set to the desired interval in milliseconds
         infinite
       />

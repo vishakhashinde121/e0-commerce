@@ -4,6 +4,7 @@ import { Carousel } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHeart } from "@fortawesome/free-solid-svg-icons";
 import styled, { keyframes } from "styled-components";
+import { Link } from "react-router-dom";
 
 
 const Minislider = () => {
@@ -22,28 +23,7 @@ const Minislider = () => {
   useEffect(() => {
     getSlid2();
   }, []);
-  const blink = keyframes`
-    50% {
-      opacity: 0.5;
-    }
-  `;
-  const HeartIcon = styled(FontAwesomeIcon)`
-    &.heart {
-      font-size: 50px;
-      animation: ${blink} 3s infinite;
-      color: maroon;
-      margin-right: 5px;
-    }
 
-    &.font-30 {
-      font-size: 40px;
-      color: pink;
-    }
-    &.font-10 {
-        font-size: 40px;
-        color: pink;
-      }
-  `;
 
   return (
     <div>
@@ -62,7 +42,7 @@ const Minislider = () => {
                 <div className="d-flex justify-content-around" >
                   {Sli2.slice(index, index + 5).map((category) => (
                     <div>
-                      <link
+                      <Link
                         to={"/category"}
                         key={category.category_id}
                         classname="suggest-card shadow my-2 rounded-bottom-5 "

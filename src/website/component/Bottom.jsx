@@ -8,7 +8,8 @@ const Bottom = () => {
                 {" "}
                 <a target="blank" href="/">
                   {" "}
-                  Vs Mart{" "}
+                  Vs mart
+                  
                 </a>
                 | © Copyright by{" "}
                 <a target="blank" href="https://www.ajspire.com">

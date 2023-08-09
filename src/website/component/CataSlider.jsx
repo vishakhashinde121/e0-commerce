@@ -14,6 +14,7 @@ const CataSlider = () => {
           src="https://vsmart.ajspire.com/ecommerce/category_banner/category_banner/1658897374banner.jpg" 
           alt="First slide"
         />
+      
       </Carousel.Item>
       <Carousel.Item>
         <img

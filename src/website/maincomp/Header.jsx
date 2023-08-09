@@ -174,7 +174,8 @@ const handmouseleave= () => {
                   onMouseLeave={handmouseleave}
                 >
                   {/* <Link to={"/brands"} >Brands</Link> */}
-                  <a href=""style={{color:"black"}}>Brands </a>
+              
+                  <a href="" style={{color:"black"}}>Brands</a>
                  
                  <Dropdown.Menu
                       className="mega-menu"
