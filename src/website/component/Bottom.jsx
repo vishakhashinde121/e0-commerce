@@ -1,0 +1,25 @@
+import React from 'react'
+
+const Bottom = () => {
+  return (
+    
+  <div className="user-form-footer" style={{background:"#3CB043",height:"250"}}>
+              <p style={{marginLeft:"250px"}}>
+                {" "}
+                <a target="blank" href="/">
+                  {" "}
+                  Vs Mart{" "}
+                </a>
+                | © Copyright by{" "}
+                <a target="blank" href="https://www.ajspire.com">
+                  Ajspire Technologies Pvt.Ltd
+                </a>
+              </p>
+            </div>
+
+
+    
+  )
+}
+
+export default Bottom

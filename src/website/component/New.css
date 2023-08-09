@@ -1,0 +1,9 @@
+.shop-widget-scroll {
+    height: 279px;
+    width: 200px;
+    overflow-y: scroll;
+    padding-right: 20px;
+}
+.abc{
+    background: linear-gradient(to left, rgba(6,23,56,0.6), rgba(17,151,68,0.6));
+}
