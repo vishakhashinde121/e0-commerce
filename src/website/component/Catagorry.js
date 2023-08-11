@@ -36,7 +36,7 @@ const Catagorry = () => {
 
 
           
-            <div className="col-md-6 col-xl-4 p-b-30 m-lr-auto">
+            <div className="col-md-6 col-xl-4 col-sm-6 p-b-30 m-lr-auto">
               <div className="block1 wrap-pic-w">
                 <img src={el.category_banner} alt="IMG-BANNER" style={{height:"400px",width:"400px"}}/>
                 <a
