@@ -1,12 +1,42 @@
-import React from "react";
+import React, { useState } from "react";
 import { Button, Form, FormLabel } from "react-bootstrap";
 import { Link } from "react-router-dom";
 
 const Login = () => {
+  const [Login,setLogin]=useState({
+    
+    email:'',
+    
+    password:''
+   
+    
+  });
+  const onSubmit = (e) => {
+    e.preventDefault();
+    fetch(`https://vsmart.ajspire.com/api/user/login`, {
+      method: 'POST',
+      body: JSON.stringify(Login),  // Convert formData to JSON string
+      headers: {
+        'Content-Type': 'application/json',  // Specify content type as JSON
+        // Include other headers if needed
+      },
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        // Handle response data here
+        console.log(data);
+      })
+      .catch((error) => {
+        console.log("Error", error);
+      });
+  };
+  const  oninputChange=(e)=>{
+    setLogin({...Login,[e.target.name]:e.target.value})
+  }
   return (
     <section className="user-form-part">
       <div className="container">
-        <div className="row" style={{justifyContent:"center" }}>
+        <div className="row" style={{justifyContent:"center",marginTop:"140px" }}>
           <div className="col">
             <a>
               <img
@@ -25,12 +55,12 @@ const Login = () => {
                 padding: '20px',
                 boxShadow: '1px 0px 5px 5px grey'
               }}>
-            <Form
+            {/* <Form
               
-            >
+            > */}
               <Form.Group className="mb-3" controlId="formBasicEmail">
                 <Form.Label>Email address</Form.Label>
-                <Form.Control type="email" placeholder="Enter email" />
+                <Form.Control type="text" placeholder="Enter email" name="email"  onChange={(e)=>oninputChange(e)}/>
                 <Form.Text className="text-muted">
                   We'll never share your email with anyone else.
                 </Form.Text>
@@ -38,26 +68,26 @@ const Login = () => {
 
               <Form.Group className="mb-3" controlId="formBasicPassword">
                 <Form.Label>Password</Form.Label>
-                <Form.Control type="password" placeholder="Password" />
+                <Form.Control type="password" placeholder="Password" name="password"  onChange={(e)=>oninputChange(e)}/>
               </Form.Group>
               <Form.Group className="mb-3" controlId="formBasicCheckbox">
                 <Form.Check type="checkbox" label="Remember Me !" />
               </Form.Group>
               <Button
                 variant="primary"
-                type="submit"
-                style={{ marginLeft: "200px", height: "40px", width: "100px" }}
+                type="submit" onClick={(e)=>onSubmit(e)}
+                style={{ marginLeft: "200px",height: "40px",width:"100px" ,position:'relative'}}
               >
                 Login
               </Button>
               <br></br>
-              <p style={{height: "10px", marginLeft: "100px" }}>
+              <p style={{height: "10px", marginLeft:"100px" }}>
                 Forgot Your Password !{" "}
                 <a href="" style={{ color: "maroon" }}>
                   Reset Here
                 </a>
               </p>
-            </Form>
+            {/* </Form> */}
             </div>
           </div>
         </div>

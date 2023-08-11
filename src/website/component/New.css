@@ -1,5 +1,5 @@
 .shop-widget-scroll {
-    height: 279px;
+    height: auto;
     width: 200px;
     overflow-y: scroll;
     padding-right: 20px;

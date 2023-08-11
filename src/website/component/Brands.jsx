@@ -17,7 +17,7 @@ const Brands = () => {
   };
 
   const handleOnSlideChanged = (event) => {
-    // Handle slide changed if needed
+    // Handle slide changed if needed 
     console.log(event);
   };
 
@@ -28,7 +28,7 @@ const Brands = () => {
         mouseTracking
         items={brand.map((item) => (
           <div key={item.id} className="slider-image-container">
-            <p>{item.brand_name}</p>
+            <p>{item.brand_name} </p>
           </div>
         ))}
         onSlideChange={handleOnSlideChange}
@@ -40,7 +40,7 @@ const Brands = () => {
         }}
         autoPlay
         
-        autoPlayInterval={3000} // Set to the desired interval in milliseconds
+        autoPlayInterval={1000} // Set to the desired interval in milliseconds
         infinite
       />
     </div>

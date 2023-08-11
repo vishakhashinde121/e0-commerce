@@ -30,15 +30,15 @@ const Catagory = () => {
           
           
           
-      <div className='col-lg-3'>
+      <div className='col-lg-3 col-sm-3'>
           <CatagoryItem />
         </div>
-        <div className="col-lg-9">
+        <div className="col-lg-9 col-sm-9">
           <div className="container">
             <div className="row">
           
           {catg.map((el) => (
-            <div className="col-lg-4" style={{boxShadow: '0px 4px 6px rgba(0, 0, 0, 0.1)',marginTop:"20px"}}>
+            <div className="col-lg-4 col-sm-4" style={{boxShadow: '0px 4px 6px rgba(0, 0, 0, 0.1)',marginTop:"20px"}}>
               <div className="block1  d-flex ">
                 <img
                   src={el.category_banner}

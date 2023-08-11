@@ -1,9 +1,10 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useState } from "react";
 import Product from "./Product";
 
 const Productlist = () => {
   const [product, setproduct] = useState([]);
+  useEffect(() => {
   fetch(`https://vsmart.ajspire.com/api/products`)
     .then((response) => {
       console.log(response);
@@ -13,6 +14,8 @@ const Productlist = () => {
       console.log(data);
       setproduct(data.products.data);
     });
+  }, []);
+  
   return (
     <div className="container">
       <div className="row shadow">

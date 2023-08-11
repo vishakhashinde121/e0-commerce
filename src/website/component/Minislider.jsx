@@ -1,9 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Carousel } from "react-bootstrap";
 // import { Link } from "react-router-dom";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faHeart } from "@fortawesome/free-solid-svg-icons";
-import styled, { keyframes } from "styled-components";
+
 import { Link } from "react-router-dom";
 
 

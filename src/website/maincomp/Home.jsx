@@ -21,7 +21,7 @@ const Home = () => {
 <Slider/>
 
       <div class="p-b-10">
-				<h3 class="ltext-103 cl5 text-center">
+				<h3 class="ltext-103 cl5 text-center" style={{textShadow:"2px 2px #fffff0"}}>
 					Catagories
 				</h3>
 			</div>

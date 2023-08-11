@@ -2,7 +2,7 @@ import React from 'react'
 
 const Bottom = () => {
   return (
-    
+    <div className='container-fluid'>
   <div className="user-form-footer" style={{background:"#3CB043",height:"250"}}>
               <p style={{marginLeft:"250px"}}>
                 {" "}
@@ -18,7 +18,7 @@ const Bottom = () => {
               </p>
             </div>
 
-
+            </div>
     
   )
 }

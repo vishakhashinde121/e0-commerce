@@ -1,8 +1,40 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useState } from "react";
+import { Link, json } from "react-router-dom";
 import Bottom from "./Bottom";
 
 const Register = () => {
+  const [formData,setformData]=useState({
+    
+    name:'',
+    email:'',
+    mob_no:'',
+    address:'',
+    password:'',
+    cpassword:''
+  });
+  const onSubmit = (e) => {
+    e.preventDefault();
+    fetch(`https://vsmart.ajspire.com/api/userregister`, {
+      method: 'POST',
+      body: JSON.stringify(formData),  // Convert formData to JSON string
+      headers: {
+        'Content-Type': 'application/json',  // Specify content type as JSON
+        // Include other headers if needed
+      },
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        // Handle response data here
+        console.log(data);
+      })
+      .catch((error) => {
+        console.log("Error", error);
+      });
+  };
+  console.log(formData)
+  const  oninputChange=(e)=>{
+    setformData({...formData,[e.target.name]:e.target.value})
+  }
   return (
     <section className="user-form-part" style={{boxShadow:"10px 4px 3px 2px grey" }}>
       <div className="container">
@@ -37,7 +69,8 @@ const Register = () => {
                   
                   onload="pagespeed.CriticalImages.checkImageForCriticality(this);"
                 />
-                <form action="/register" method="POST" className="user-form" style={{padding:"15px"}}>
+                <div className="user-form" style={{padding:"15px"}}>
+                {/* <form action="/register" method="POST" className="user-form" style={{padding:"15px"}}> */}
                   <input
                     type="hidden"
                     name="_token"
@@ -50,7 +83,7 @@ const Register = () => {
                       className="form-control"
                       name="name"
                       id="name"
-                      placeholder="Enter your name"
+                      placeholder="Enter your name" onChange={(e)=>oninputChange(e)}
                     />
                   </div>
                   <div className="form-group">
@@ -60,16 +93,18 @@ const Register = () => {
                       className="form-control"
                       name="email"
                       placeholder="Enter your email"
+                      onChange={(e)=>oninputChange(e)}
                       required
                     />
                   </div>
                   <div className="form-group">
                     <span style={{color:"black"}}>Mobile No</span>
                     <input
-                      type="number"
+                      type="text"
                       className="form-control"
                       name="mob_no"
                       placeholder="Enter your Number"
+                      onChange={(e)=>oninputChange(e)}
                       required
                     />
                   </div>
@@ -79,7 +114,8 @@ const Register = () => {
                       type="text"
                       className="form-control"
                       name="address"
-                      placeholder="Enter your address"
+                      placeholder="Enter your address" 
+                      onChange={(e)=>oninputChange(e)}
                     />
                   </div>
                   <div className="form-group">
@@ -88,7 +124,8 @@ const Register = () => {
                       type="password"
                       className="form-control"
                       name="password"
-                      placeholder="Enter your password"
+                      placeholder="Enter your password" 
+                      onChange={(e)=>oninputChange(e)}
                     />
                   </div>
                   <div className="form-group">
@@ -96,36 +133,12 @@ const Register = () => {
                     <input
                       type="password"
                       className="form-control"
-                      name="confirm_password"
+                      name="cpassword"
                       placeholder="Enter repeat password"
+                      onChange={(e)=>oninputChange(e)}
                     />
                   </div>
-                  <div className="form-group">
-                    <span style={{color:"black"}}>Select Franchise</span>
-                    <select
-                      name="franchise_id"
-                      id="order"
-                      className="form-control select2"
-                      data-live-search="true"
-                    >
-                      <option value selected>
-                        Choose Franchise
-                      </option>
-                      <option value={2059}>
-                        Pimple Gurav Branch , Maharashtra colony, Galli
-                        No-2,Amarnath Family Restaurant, Near Kalpataru
-                        Society,Pimple-Gurav-411061
-                      </option>
-                      <option value={2058}>
-                        Indapur Branch , Ingale Peth, near Bhargavrao Garden,Old
-                        Kacheri road,Indapur -413106
-                      </option>
-                      <option value={2054}>
-                        Wai Branch , Songirwadi,Bavdhan naka,Wai-412803
-                      </option>
-                      <option value={2}>Satara Branch , Satara</option>
-                    </select>
-                  </div>
+                  
                   <div className="form-check mb-3">
                     <input
                       className="form-check-input"
@@ -139,9 +152,10 @@ const Register = () => {
                     </label>
                   </div>
                   <div className="form-button" style={{height:"30px",width:"200px",background:"green",marginLeft:"150px"}}>
-                    <button type="submit" style={{color:"white" ,marginLeft:"70px",height:"30px"}}>register</button>
+                    <button type="submit" style={{color:"white" ,marginLeft:"70px",height:"30px"}} onClick={(e)=>onSubmit(e)}>register</button>
                   </div>
-                </form>
+                  </div>
+                {/* </form> */}
               </div>
             </div>
             <div className="user-form-remind">

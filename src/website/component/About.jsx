@@ -11,7 +11,7 @@ const About = () => {
         }}>
         <div
           className="container"
-          style={{ backgroundImage:"url(https://himotto.com/storage/main_banner/images/11628333935.jpg)",height:"380px" }}
+          style={{ backgroundImage:"url(https://himotto.com/storage/main_banner/images/11628333935.jpg)",height:"380px",opacity: "0.5",color: "green" }}
         >
           <h2 style={{marginLeft:"350px",marginTop:"90px"}}>About our company</h2>
           <h4 className="text-black">
@@ -76,11 +76,11 @@ const About = () => {
       </section>
       <section
         className="inner-section about-company"
-        style={{ boxShadow: "5px 5px 5px 5px grey" }}
+        style={{ boxShadow: "5px 5px 5px 5px grey"}}
       >
         <div className="container">
-          <div className="row align-items-center" style={{padding:"30px"}}>
-            <div className="col-lg-6">
+          <div className="row align-items-center" style={{padding:"30px",marginTop:"55px"}}>
+            <div className="col-lg-6" >
               <div className="about-content">
                 <h2 style={{ color: "orangered" }}>Our Vision</h2>
                 <p>
@@ -91,7 +91,7 @@ const About = () => {
                 </p>
               </div>
             </div>
-            <div className="col-lg-6">
+            <div className="col-lg-6" style={{boxShadow: "5px 5px 5px 5px grey",padding:"30px"}}>
               <div className="about-content">
                 <h2 style={{ color: "orangered" }}>Our Mission</h2>
                 <p>

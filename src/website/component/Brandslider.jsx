@@ -10,7 +10,7 @@ const Brandslider = () => {
         try {
             const response = await fetch("https://vsmart.ajspire.com/api/brands");
             const data = await response.json();
-            Setbrand(data.categories);
+            Setbrand(data.brands);
         } catch (error) {
             console.error("Error fetching categories:", error);
         }
@@ -28,7 +28,7 @@ const Brandslider = () => {
                         {brand.map((category, index) => (
                             <Carousel.Item key={index}>
                                 <div className="d-flex justify-content-around">
-                                    {category.slice(index, index + 5).map((item) => (
+                                    {brand.slice(index, index + 5).map((item) => (
                                         <div key={item.category_id} className="suggest-card shadow my-2 rounded-bottom-5">
                                             <h5 className="text-center text-bg-dark mt-12">
                                                 {item.brand_name}

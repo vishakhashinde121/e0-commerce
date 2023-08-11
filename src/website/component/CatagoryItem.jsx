@@ -26,7 +26,7 @@ const CatagoryItem = () => {
             <div className="overflow-auto">
               <h6>Filter by Category</h6>
               <ul class="shop-widget-scroll">
-                {catg.slice(0, 20).map((el) => (
+                {catg.slice(0, 15).map((el) => (
                   <li key={el.category_id}> 
                     <input  type="checkbox" />
                     
