@@ -1,73 +1,58 @@
 import React, { useEffect, useState } from "react";
-import { Carousel } from "react-bootstrap";
 // import { Link } from "react-router-dom";
 
 import { Link } from "react-router-dom";
+import Authuser from "../authentication/Authuser";
+import AliceCarousel from 'react-alice-carousel';
+
 
 
 const Minislider = () => {
+  const{http,token}=Authuser();
+
   const [Sli2, SetSli2] = useState([]);
 
-  const getSlid2 = async () => {
-    try {
-      const response = await fetch("https://vsmart.ajspire.com/api/categories");
-      const data = await response.json();
-      SetSli2(data.categories);
-    } catch (error) {
-      console.error("Error fetching categories:", error);
-    }
-  };
+  const getSlid2 = ()=>{
+    http.get("/categories").then((res)=>{
+      console.log(res.data);
+      SetSli2(res.data.categories)
+    })
+    
+  }
 
   useEffect(() => {
     getSlid2();
-  }, []);
+  }, [token]);
 
 
   return (
-    <div>
-      <section
-        className=""
-        style={{ marginTop: "120px", background:"None" }}
-      >
-        <div className="container">
-         
-          {/* <div className="section-title text-center">
-                        <h2 >Categories</h2>
-                    </div> */}
-          <Carousel interval={1000}>
-            {Sli2.map((category, index) => (
-              <Carousel.Item key={index}>
-                <div className="d-flex justify-content-around" >
-                  {Sli2.slice(index, index + 5).map((category) => (
-                    <div>
-                      <Link
-                        to={"/category"}
-                        key={category.category_id}
-                        classname="suggest-card shadow my-2 rounded-bottom-5 "
-                      />
-                       <h5 classname="text-center text-bg-dark mt-12">
-                          {category.category_name}
-
-                          <br />
-                        </h5>
-                     
-                      <div>
-                        <img
-                        classname="rounded-pill"
-                        style={{ width: 200, height: 200 }}
-                        src={category.category_banner}
-                        alt=""
-                      />
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </Carousel.Item>
-            ))}
-          </Carousel>
+    <>
+      
+      <div style={{marginTop:'30px',marginLeft:'160px'}}>
+      <AliceCarousel 
+      mouseTracking
+      items={Sli2.map((el) => (
+        <div  className="slider-image-container" >
+          <img src={el.category_banner} height={'100px'} width={'100px'} className="slider-image" />
         </div>
-      </section>
+      ))}
+      
+      responsive={{
+        0: { items: 1 },
+        576: { items: 2 },
+        768: { items: 3 },
+        992: { items: 4 },
+        1200: { items: 5 },
+      }}
+      autoPlay
+      autoPlayInterval={3000}
+      infinite
+    />
     </div>
+
+   
+    </>
+     
   );
 };
 

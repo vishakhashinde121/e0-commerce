@@ -1,13 +1,37 @@
 import React, { useEffect, useState } from "react";
 import { Dropdown } from "react-bootstrap";
 
-import { Link } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 import "./header.css";
+import Authuser from "../authentication/Authuser";
+import { Button } from "bootstrap";
 const Header = () => {
   const [isMobileMenuVisible, setIsMobileMenuVisible] = useState(false);
   const [isSearchModalVisible, setSearchModalVisible] = useState(false);
 
    const [isCartOpen, setIsCartOpen] = useState(false);
+   const { user, logout, token,http } = Authuser();
+   console.log("token",token);
+   const [brand, setbrand] = useState([]);
+  const [scatg, setscatg] = useState([]);
+  const [subcat, setsubcat] = useState([]);
+  //cart product show
+  const[Cartproduct,setCartproduct]=useState([]);
+  const[Cartcount,setCartcount]=useState([]);
+  //search 
+  const [searchTerm, setSearchTerm] = useState('');
+  const [param,setparam]=useSearchParams();
+  //wishlist
+  const[wish,setWish]=useState([]);
+  const[wishcount,setWishcount]=useState(0);
+  
+    const handleSearchChange = event => {
+      setSearchTerm(event.target.value);
+    };
+  //brand show
+  const [showbrandmenu, setshowbrandmenu] = useState(false);
+  //sub catagory show
+  const [showMegaMenu, setShowMegaMenu] = useState(false);
 
   const handleShowCart = () => {
     setIsCartOpen(true);
@@ -18,18 +42,14 @@ const Header = () => {
   };
   const handleSearchIconClick = () => {
     setSearchModalVisible(true);
+    //console.log('Searching for:'+ searchQuery);
   };
 
   const handleCloseModal = () => {
     setSearchModalVisible(false);
   };
 
-  const [brand, setbrand] = useState([]);
-  const [scatg, setscatg] = useState([]);
-  const [subcat, setsubcat] = useState([]);
-  const [showbrandmenu, setshowbrandmenu] = useState(false);
-  const [showMegaMenu, setShowMegaMenu] = useState(false);
-
+  
   const handleMouseEnter = () => {
     setShowMegaMenu(true);
   };
@@ -45,12 +65,33 @@ const Header = () => {
     setshowbrandmenu(false);
   };
 
+  const getbrand=()=>{
+    http.get(`/brands`)
+  
+    .then((response)=>{
+      setbrand(response.data.brands);
+    })
+    
+  }
+// const Wishlist=(product_id)=>{
+//   http.get(`add-to-wishlist/${product_id}`)
+//   .then((resp)=>{
+//     console.log(resp)
+//     setWish(resp.data.wishlist)
+//     setWishcount(resp.data.wishlist.length)
+
+
+// })
+// }
   const getcatagory = () => {
-    fetch(`https://vsmart.ajspire.com/api/categories`)
-      .then((response) => response.json())
-      .then((data) => {
-        setscatg(data.categories);
-        data.categories.forEach((category) => {
+    http.get("/categories")
+   
+      .then((response) =>{
+        setscatg( response.data.categories);
+     
+      
+        
+        response. data.categories.forEach((category) => {
           getsubcatagory(category.category_id);
         });
         console.log(setscatg);
@@ -59,6 +100,13 @@ const Header = () => {
         console.error("Error fetching data:", error);
       });
   };
+  const getcartproduct=()=>{
+http.get(`/get-cart-list`).then((res)=>{ 
+  setCartproduct(res.data.cart);
+  setCartcount(res.data.cart.length);
+
+})
+  }
 
   const getsubcatagory = (category_id) => {
     fetch(`https://vsmart.ajspire.com/api/subcategories/${category_id}`)
@@ -81,7 +129,16 @@ const Header = () => {
 
   useEffect(() => {
     getcatagory();
-  }, []);
+    getbrand();
+      }, []);
+
+      useEffect(()=>{ 
+        if (token) {
+          getcartproduct();
+        }
+        
+
+      },[token])
 
   return (
     <>
@@ -100,9 +157,17 @@ const Header = () => {
                   Help &amp; FAQs
                 </a>
 
-                <Link to={"/login"} class="flex-c-m trans-04 p-lr-25">
-                  My Account
-                </Link>
+                 
+                  
+                {token ? (
+                  <a href="#">
+                    <i className="fa fa-user s_color" /> {user.name}
+                  </a>
+                ):(
+                  <a href="#">
+                    <i className="fa fa-user s_color" /> My Account
+                  </a>
+                )}
 
                 <a href="#" class="flex-c-m trans-04 p-lr-25">
                   EN
@@ -136,7 +201,7 @@ const Header = () => {
                   </li>
 
                   <li class="nav-item">
-                    <Link to="/Products">Shop</Link>
+                    <Link to="/shop">Shop</Link>
                   </li>
 
                   <li class="nav-item">
@@ -172,11 +237,11 @@ const Header = () => {
                                   .slice(0, 6)
                                   .map((sub) => (
                                     <li className="fltr ">
-                                      {" "}
+                                    
                                       <Link
                                         to={`/product-shop/${el.category_id}/${sub.subcategory_id}`}
                                       >
-                                        <a>{sub.subcategory_name} </a>{" "}
+                                        <a style={{color:"black"}}>{sub.subcategory_name} </a>
                                       </Link>
                                     </li>
                                   ))}
@@ -185,14 +250,15 @@ const Header = () => {
                           ))}
                           <div class="col-lg-12">
                             <div class="section-btn-25">
-                              <i class="fas fa-eye">
+                              <i class="fa fa-eye" aria-hidden="true">
+
                                 <Link
                                   to={"/catagory"}
                                   class="btn btn-outline"
                                   varient="secondary"
-                                  style={{ backgroundColor: "green" }}
+                                 
                                 >
-                                  {" "}
+                                  
                                   View All Catagory
                                 </Link>
                               </i>
@@ -210,7 +276,7 @@ const Header = () => {
                     >
                       {/* <Link to={"/brands"} >Brands</Link> */}
 
-                      <a href="" style={{ color: "black" }}>
+                      <a href="" style={{ color:"black" }}>
                         Brands
                       </a>
 
@@ -222,26 +288,41 @@ const Header = () => {
                           alignItems: "center",
                         }}
                       >
-                        <a href="">
-                          <ul>
-                            <li>pragati</li>
-                            <li>vish</li>
-                            <li>tanaya</li>
-                            <li>Harsha</li>
-                            <li>Pranjali</li>
-                          </ul>
-                        </a>
+                        <div className="row">
+                          
+                            
+                              <div className="col-sm-3">
+                                <ul className="megamenu-list sub">
+                                  {
+                                brand.slice(0,10).map((el)=>(
+                                  <li >
+                                    <Link to={`/product-shop/${el.brand_id}`} style={{color:'black'}}>
+                                    {el.brand_name}
+                                    </Link>
+                                  </li>
+
+
+
+                                  ))
+                                }
+                                </ul>
+                                </div>
+                                <div className="col-lg-12">
+                                <div class="section-btn-25">
+                                <i class="fa fa-eye" aria-hidden="true">
+
+                                  <Link to={"/brands"}>View All Brands</Link>
+                                  </i>
+                                  </div>
+                                </div>
+                           
+                          
+                        </div>
                       </Dropdown.Menu>
                     </Dropdown>
                   </li>
 
-                  {/* 
-              <li>
-                
-                <Link to={"/brands"}>Brands
-            
-        </Link>
-              </li>  */}
+          
 
                   <li>
                     <Link to={"/about"}>About</Link>
@@ -252,6 +333,13 @@ const Header = () => {
                   </li>
                   <li>
                     <Link to={"/blog"}>Blog</Link>
+                  </li>
+                  <li>
+                  {token ? (
+                        <Link onClick={logout} ><i class="fa "></i> Logout</Link>
+                      ) : (
+                        <Link to="/login"><i class="fa fa-lock"></i> Login</Link>
+                      )}
                   </li>
                 </ul>
               </div>
@@ -264,18 +352,25 @@ const Header = () => {
                       class="zmdi zmdi-search"
                       onClick={handleSearchIconClick}
                     ></i>
-                    {isSearchModalVisible && (
-                      <div className="search-modal" onClick={handleCloseModal}>
+                    {isSearchModalVisible ?(
+                      <div className="search-modal" >
                         <div className="search-modal-content">
-                          <input
-                            type="text"
-                            className="search-input"
-                            placeholder="Search..."
-                            onClick={(e) => e.stopPropagation()}
-                          />
+                      <i class="fa fa-times"  aria-hidden="true" onClick={handleCloseModal} style={{marginLeft:"290px"}}/>
+                        <div className="search">
+                        <input
+        type="text"
+        placeholder="Search..."
+        value={searchTerm}
+        onChange={handleSearchChange}
+      />
+<Link to={`/search?q=${encodeURIComponent(searchTerm)}`}
+      onChange={()=>setparam({q:searchTerm})}>
+      <i class="fa fa-search"></i>
+      </Link>
+</div>
                         </div>
                       </div>
-                    )}
+                    ):( <></>)}
                   </div>
           
                 </div>
@@ -283,18 +378,24 @@ const Header = () => {
                 
                 <div class="wrap-icon-header flex-w flex-r-m">
 						
-
-						<div className={`icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 icon-header-noti js-show-cart`} data-notify="2" onClick={handleShowCart}>
+{token?
+(
+<div className={`icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 icon-header-noti js-show-cart`} data-notify={Cartcount} onClick={handleShowCart}>
         <i className="zmdi zmdi-shopping-cart"></i>
-      </div>
+      </div>)
+      :
+      (<div className={`icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 icon-header-noti js-show-cart`} >
+        <i className="zmdi zmdi-shopping-cart"></i>
+      </div>)
+      }
+						
 
-						<a href="#" class="dis-block icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 icon-header-noti" data-notify="0">
-							<i class="zmdi zmdi-favorite-outline"></i>
-						</a>
+<Link to={'/wishlist'} class="dis-block icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 icon-header-noti" data-notify={wishcount}><i class="zmdi zmdi-favorite-outline"  ></i></Link>
+						
 					</div>
 
 
-                {/* <Link to={"/login"} class="flex-c-m trans-04 p-lr-25">My Account</Link> */}
+               
               </div>
             </nav>
           </div>
@@ -363,9 +464,15 @@ const Header = () => {
                   Help &amp; FAQs
                 </a>
 
-                <Link to={"/login"} class="flex-c-m trans-04 p-lr-25">
-                  My Account
-                </Link>
+                {token ? (
+                  <a href="#">
+                    <i className="fa fa-user s_color" /> {user.name}
+                  </a>
+                ) : (
+                  <a href="#">
+                    <i className="fa fa-user s_color" /> My Account
+                  </a>
+                )}
 
                 <a href="#" class="flex-c-m p-lr-10 trans-04">
                   EN
@@ -387,14 +494,14 @@ const Header = () => {
             </li>
 
             <li>
-              <Link to={"/products"}>Products</Link>
+              <Link to={"/shop"}>Shop</Link>
             </li>
 
-            <li>
+            {/* <li>
               <a href="shoping-cart.html" class="label1 rs1" data-label1="hot">
                 Features
               </a>
-            </li>
+            </li> */}
 
             <li>
               <Link to={"/category"}>Categories</Link>
@@ -407,6 +514,13 @@ const Header = () => {
             <li>
               <Link to={"/contact"}>Contact</Link>
             </li>
+            <li>
+                  {token ? (
+                        <Link onClick={logout} ><i class="fa "></i> Logout</Link>
+                      ) : (
+                        <Link to="/login"><i class="fa fa-lock"></i> Login</Link>
+                      )}
+                  </li>
           </ul>
         </div>
 
@@ -414,25 +528,7 @@ const Header = () => {
         {/* <!-- Menu Mobile --> */}
 
         {/* <!-- Modal Search --> */}
-        <div class="modal-search-header flex-c-m trans-04 js-hide-modal-search">
-          <div class="container-search-header">
-            <button class="flex-c-m btn-hide-modal-search trans-04 js-hide-modal-search">
-              <img src="images/icons/icon-close2.png" alt="CLOSE" />
-            </button>
-
-            <form class="wrap-search-header flex-w p-l-15">
-              <button class="flex-c-m trans-04">
-                <i class="zmdi zmdi-search"></i>
-              </button>
-              <input
-                class="plh3"
-                type="text"
-                name="search"
-                placeholder="Search..."
-              />
-            </form>
-          </div>
-        </div>
+       /
       </header>
       {/* <!-- cart--! */}
       <div className={`wrap-header-cart js-panel-cart ${isCartOpen ? 'show-header-cart' : ''}`}>
@@ -448,49 +544,31 @@ const Header = () => {
     </div>
     <div className="header-cart-content flex-w js-pscroll">
       <ul className="header-cart-wrapitem w-full">
+        
+        
         <li className="header-cart-item flex-w flex-t m-b-12">
+        {Cartproduct.map((el)=>(
+<>
           <div className="header-cart-item-img">
-            <img src="images/item-cart-01.jpg" alt="IMG" />
+          <img  src={`https://vsmart.ajspire.com/uploads/product_image/${el.product_image}`} alt="" />
           </div>
           <div className="header-cart-item-txt p-t-8">
             <a href="#" className="header-cart-item-name m-b-18 hov-cl1 trans-04">
-              White Shirt Pleat
+              {el.english_name}
             </a>
             <span className="header-cart-item-info">
-              1 x $19.00
+              {el.cart_product_qty}x {el.cart_price}
             </span>
           </div>
+          </>
+           ))}
         </li>
-        <li className="header-cart-item flex-w flex-t m-b-12">
-          <div className="header-cart-item-img">
-            <img src="images/item-cart-02.jpg" alt="IMG" />
-          </div>
-          <div className="header-cart-item-txt p-t-8">
-            <a href="#" className="header-cart-item-name m-b-18 hov-cl1 trans-04">
-              Converse All Star
-            </a>
-            <span className="header-cart-item-info">
-              1 x $39.00
-            </span>
-          </div>
-        </li>
-        <li className="header-cart-item flex-w flex-t m-b-12">
-          <div className="header-cart-item-img">
-            <img src="images/item-cart-03.jpg" alt="IMG" />
-          </div>
-          <div className="header-cart-item-txt p-t-8">
-            <a href="#" className="header-cart-item-name m-b-18 hov-cl1 trans-04">
-              Nixon Porter Leather
-            </a>
-            <span className="header-cart-item-info">
-              1 x $17.00
-            </span>
-          </div>
-        </li>
+       
+      
       </ul>
       <div className="w-full">
         <div className="header-cart-total w-full p-tb-40">
-          Total: $75.00
+          {}
         </div>
         <div className="header-cart-buttons flex-w w-full">
           <Link to={"/shoppingcart"} className="flex-c-m stext-101 cl0 size-107 bg3 bor2 hov-btn3 p-lr-15 trans-04 m-r-8 m-b-10"> View Cart</Link>

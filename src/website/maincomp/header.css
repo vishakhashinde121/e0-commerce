@@ -33,10 +33,21 @@
 
 .search-input {
   width: 100%;
-  padding: 10px;
+  padding: 5px;
   border: 1px solid #ccc;
   border-radius: 3px;
 }
 .icon-header-item {
   cursor: pointer;
+}
+.search{
+  display: flex;
+}
+.the_content{
+  position: relative;
+  
+  margin-top: 40px
+}
+.aba{
+  margin-top: 50px;
 }

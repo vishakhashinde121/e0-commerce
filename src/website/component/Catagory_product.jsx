@@ -6,11 +6,12 @@ import { Link, useParams } from 'react-router-dom';
 
 import AliceCarousel from 'react-alice-carousel';
 import 'react-alice-carousel/lib/alice-carousel.css';
+import Authuser from '../authentication/Authuser';
 
 
 
 const Catagory_product = () => {
-
+const{http,token}=Authuser();
   let { cat_id, sub_id } = useParams();
  //product
   const[Category,setCategory]=useState([]);
@@ -34,9 +35,9 @@ const Catagory_product = () => {
 
   const getCategoryData =()=>{
     // console.log();
-    try {
-      fetch(`https://vsmart.ajspire.com/api/product-shop/${cat_id}/${sub_id}`)
-      .then((response) => response.json())
+    http.get(`/product-shop/${cat_id}/${sub_id}`)
+      // fetch(`https://vsmart.ajspire.com/api`)
+      // .then((response) => response.json())
       .then((data) => {
           // console.log(data);
         setCategory(data.category.data);
@@ -54,16 +55,13 @@ const Catagory_product = () => {
       .catch((error) => {
           console.error("Error fetching data:", error);
       });
-      
-    } catch (error) {
-      
-    }
+     
    
 
   }
   useEffect(() => {
     getCategoryData();
-  }, []);
+  }, [token]);
 
   return (
     <>
@@ -132,67 +130,49 @@ const Catagory_product = () => {
 
           </div>
           <div class="col-lg-9">
-            <section class="shop_section layout_padding">
-              <div class="container">
-               
-                <div class="row">
-                {
+            <div className='container'><div className='row'>         
+            {
                         Category.slice(0, 10).map((item) => (
-                            <div class="col-sm-6 col-md-4 col-lg-3">
-                                <div class="box">
-                                    <a href="">
-                                        <div class="img-box">
-                                            <img class="img-fluid w-100" src={item.product_image} alt="" style={{ width: "300%", height: "300px" }}    ></img>
-                                        </div>
-                                        <div class="detail-box">
-                                            <h6>
-                                                {item.english_name}
-                                            </h6>
-                                            <h6>
-
-                                                <span>
-
-                                                </span>
-                                            </h6>
-
-                                            <h6 class="feature-price">
-
-                                                MRP<del style={{ color: 'red' }}>{item.mrp_price}</del><span style={{color:"green"}}>{item.sale_price}<small>/only</small></span>
-                                            </h6>
-
-                                        </div>
-                                        <div class="new" >
-                                            <span>
+    <div className="col-sm-6 col-md-4 col-lg-3 p-b-35  p-t-30 isotope-item women" style={{position:"relative", left: "0%", top: "0px" }}>
+  {/* Block2 */ }
+  <div className="block2">
+    <div className="block2-pic hov-img0">
+      <img src={item.product_image} alt="IMG-PRODUCT" style={{height: '"150px",', width:"150px"}} />
+      <a href="#" className="block2-btn flex-c-m stext-103 cl2 size-102 bg0 bor2 hov-btn1 p-lr-15 trans-04 js-show-modal1">
                                                 &#8377;{item.mrp_price - item.sale_price}off
-                                            </span>
-                                        </div>
-                                        <button className="product-add  addd" style={{ width: "250px", height: "40px" }} title="Add to Cart">
-                                            <a className="link-dark" href="/user-login">
-                                                
-
-                                                <span>add
-
-
-                                                </span>
-                                            </a>
-                                        </button>
-
-                                    </a>
-                                </div>
-
-                            </div>
+                                          </a>
+                                           <br />
+      <a href="#" className="block2-btn flex-c-m stext-103 cl2 size-102 bg0 bor2 hov-btn1 p-lr-15 trans-04 js-show-modal1">
+        
+        <button> Add to cart</button>
+       
+      </a>
+    </div>
+    <div className="block2-txt flex-w flex-t p-t-14">
+      <div className="block2-txt-child1 flex-col-l ">
+        <a href="product-detail.html" className="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6">
+        {item.english_name}
+        </a>
+        <span className="stext-105 cl3">
+          
+         MRP<del style={{ color: 'red' }}>{item.mrp_price}</del><span style={{color:"green"}}>{item.sale_price}<small>/only</small></span>
+        </span>
+      </div>
+      <div className="block2-txt-child2 flex-r p-t-3">
+        <a href="#" className="btn-addwish-b2 dis-block pos-relative js-addwish-b2">
+          <img className="icon-heart1 dis-block trans-04" src="images/icons/icon-heart-01.png" alt="ICON" />
+          <img className="icon-heart2 dis-block trans-04 ab-t-l" src="images/icons/icon-heart-02.png" alt="ICON" />
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
                         )
-                        )
-
-                    }
-                </div>
-               
-              </div>
-            </section>
+                        )}
 
 
-
-
+</div></div>
+  
           </div>
         </div>
       </div>

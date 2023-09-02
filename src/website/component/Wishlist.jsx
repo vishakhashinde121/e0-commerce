@@ -1,25 +1,19 @@
 import React, { useEffect, useState } from 'react'
-import Authuser from '../authentication/Authuser';
+import Authuser from '../authentication/Authuser'
 
-const Shopingcart = () => {
-	const{http,token}=Authuser();
-	const[Cartproduct,setCartproduct]=useState([]);
-  const[Cartcount,setCartcount]=useState([]);
-  
-	const getcartproduct=()=>{
-		http.get(`/get-cart-list`).then((res)=>{console.log(res.data); 
-		  setCartproduct(res.data.cart);
-		  setCartcount(res.data.cart.length);
-		
-		})
-		  }
-		  useEffect(()=>{
-			getcartproduct();
-		  },[token])
+const Wishlist = () => {
+  const{http,token}=Authuser();
+  const[Wishlist,setWishlist]=useState([]);
+   const getWishlist=()=>{
+    http.get(`/get-wishlist`).then((res)=>{
+      console.log(res);
+      setWishlist(res.data.wishlist)
+      console.log(setWishlist);
+    })
+   } 
+   useEffect(()=>{getWishlist();},[token])
   return (
     <div>
-
-
 <div class="container">
 		<div class="bread-crumb flex-w p-l-25 p-r-15 p-t-30 p-lr-0-lg">
 			<a href="index.html" class="stext-109 cl8 hov-cl1 trans-04">
@@ -28,12 +22,12 @@ const Shopingcart = () => {
 			</a>
 
 			<span class="stext-109 cl4">
-				Shoping Cart
+			Wishlist
 			</span>
 		</div>
 	</div>
 
-    <form class="bg0 p-t-75 p-b-85">
+  <form class="bg0 p-t-75 p-b-85">
 		<div class="container">
 			<div class="row">
 				<div class="col-lg-10 col-xl-7 m-lr-auto m-b-50">
@@ -47,7 +41,7 @@ const Shopingcart = () => {
 									<th class="column-4">Quantity</th>
 									<th class="column-5">Total</th>
 								</tr>
-{Cartproduct.map((ele)=>(
+{Wishlist.map((ele)=>(
 
 
 								<tr class="table_row">
@@ -181,9 +175,9 @@ const Shopingcart = () => {
 		</div>
 	</form>
 
-
+        
     </div>
   )
 }
 
-export default Shopingcart
+export default Wishlist

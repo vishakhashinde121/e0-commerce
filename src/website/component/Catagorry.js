@@ -1,12 +1,15 @@
 import React, { useEffect, useState } from 'react'
+import Authuser from '../authentication/Authuser';
 
 
 const Catagorry = () => {
+  const{http,token}=Authuser();
     const [catg, setcatg] = useState([]);
 
     useEffect(() => {
-        fetch(`https://vsmart.ajspire.com/api/categories`)
-            .then((response) => response.json())
+http.get(`/categories`)
+        // fetch(`https://vsmart.ajspire.com/api`)
+        //     .then((response) => response.json())
             .then((data) => {
                 setcatg(data.categories);
                 console.log(setcatg);
@@ -14,7 +17,7 @@ const Catagorry = () => {
             .catch((error) => {
                 console.error("Error fetching data:", error);
             });
-    }, []);
+    }, [token]);
   return (
     <div>
 
@@ -36,7 +39,7 @@ const Catagorry = () => {
 
 
           
-            <div className="col-md-6 col-xl-4 col-sm-6 p-b-30 m-lr-auto">
+            <div className="col-md-6 col-xl-4 col-sm-6 col-lg-4 p-b-30 m-lr-auto">
               <div className="block1 wrap-pic-w">
                 <img src={el.category_banner} alt="IMG-BANNER" style={{height:"400px",width:"400px"}}/>
                 <a

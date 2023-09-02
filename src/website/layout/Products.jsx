@@ -1,16 +1,16 @@
 import React from "react";
 import { useEffect } from "react";
 import { useState } from "react";
+import Authuser from "../authentication/Authuser";
 
 const Products = () => {
+  const{http}=Authuser();
   const [shop, setshop] = useState([]);
   useEffect(() => {
-    fetch(`https://vsmart.ajspire.com/api/products`)
-      .then((response) => {
-        return response.json();
-      })
+    http.get(`/shop`)
+    
       .then((data) => {
-        setshop(data.products.data);
+        setshop(data.shop.data);
       })
       .catch((error) => {
         console.error("error fetching data", error);
@@ -19,7 +19,7 @@ const Products = () => {
   return (
     <>
       {/* Product */}
-      <div className="bg0 m-t-23 p-b-140">
+      <div className="bg0 m-t-30 p-b-140">
         <div className="container">
          
           <div className="row isotope-grid">
@@ -38,12 +38,12 @@ const Products = () => {
                       </div>
                 <div className="block2-pic hov-img0">
                   <img src={el.product_image} alt="IMG-PRODUCT" />
-                  <a
+                  {/* <a
                     href="#"
                     className="block2-btn flex-c-m stext-103 cl2 size-102 bg0 bor2 hov-btn1 p-lr-15 trans-04 js-show-modal1"
                   >
                     Add to cart
-                  </a>
+                  </a> */}
                 </div>
                 <div className="block2-txt flex-w flex-t p-t-14">
                   <div className="block2-txt-child1 flex-col-l ">
@@ -74,6 +74,7 @@ const Products = () => {
                   </div>
                 </div>
               </div>
+              <button className="btn block2-btn flex-c-m stext-103 cl2 size-102 bg0 bor2 hov-btn1 p-lr-15 trans-04 js-show-modal1"> Add to cart</button>
             </div>
                 ))
             }

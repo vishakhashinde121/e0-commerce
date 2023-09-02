@@ -4,12 +4,14 @@ import './index.css';
 
 import reportWebVitals from './reportWebVitals';
 import Allroutes from './Allroutes';
+import SearchTest from './website/component/SearchTest';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
 
- <Allroutes/>
+  <Allroutes/>
+
   </React.StrictMode>
 );
 

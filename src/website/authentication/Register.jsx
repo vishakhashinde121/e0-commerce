@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Link, json } from "react-router-dom";
-import Bottom from "./Bottom";
+import Bottom from "../component/Bottom";
 
 const Register = () => {
   const [formData,setformData]=useState({
