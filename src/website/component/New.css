@@ -13,3 +13,11 @@
     height: 40px;
     width: 90px;
 }
+.asdf{
+    background-image: url(https://www.westend61.de/images/0000192988pw/various-groceries-on-white-background-MAEF005519.jpg);
+    background-size: cover; 
+    /* background-color: #e3dbdb; */
+    opacity:0.5;
+    width: 300px;
+  height: 200px;
+}

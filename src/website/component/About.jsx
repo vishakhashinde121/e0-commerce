@@ -76,7 +76,7 @@ const About = () => {
       </section>
       <section
         className="inner-section about-company"
-        style={{ boxShadow: "5px 5px 5px 5px grey"}}
+        style={{ boxShadow: "5px 5px 5px 5px grey" ,marginBottom:"20px"}}
       >
         <div className="container">
           <div className="row align-items-center" style={{padding:"30px",marginTop:"55px"}}>
@@ -91,7 +91,7 @@ const About = () => {
                 </p>
               </div>
             </div>
-            <div className="col-lg-6" style={{boxShadow: "5px 5px 5px 5px grey",padding:"30px"}}>
+            <div className="col-lg-6">
               <div className="about-content">
                 <h2 style={{ color: "orangered" }}>Our Mission</h2>
                 <p>

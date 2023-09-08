@@ -9,7 +9,7 @@ const Brand_product = () => {
   //product
    const[Brand,setBrand]=useState([]);
    //brandsname  for banner
-   const[Brands_,setBrands_]=useState([]);
+   const[Brands_,setBrands_]=useState([])
  
  //scroll menu
    const[Cat,setCate]=useState([]);
@@ -31,15 +31,15 @@ http.get(`/product-shop/${brand_id}`)
       //  fetch(`https://vsmart.ajspire.com/api`)
       //  .then((response) => response.json())
        .then((data) => {
-        console.log(data);
+        console.log(data.data);
            // console.log(data);
-         setBrand(data.brand);
-         setBrands_(data.brands_);
-         setCate(data.cat);
-        setBrandss(data.brandss);
-        //  setSub(data.sub);
-         setCount(data.count['']);
-         setBrand1(data.Brand1['']);
+         setBrand(data.data.brand);
+         setBrands_(data.data.brands_);
+         setCate(data.data.cat);
+        setBrandss(data.data.brandss);
+        //  setSub(data.data.sub);
+         setCount(data.data.count['']);
+         setBrand1(data.data.count1['']);
        })
    
    

@@ -19,6 +19,7 @@ import Register from './website/authentication/Register'
 import Login from './website/authentication/Login'
 import Brand_product from './website/component/Brand_product'
 import Search from './website/component/Search'
+import Wishlist from './website/component/Wishlist'
 
 
 const Allroutes = () => {
@@ -44,6 +45,7 @@ const Allroutes = () => {
     <Route path='/contact' element={<Master Rcf={Contact}/>}/>
     <Route path='/about' element={<Master Rcf={About}/>}/>
     <Route path='/blog' element={<Master Rcf={Blog}/>}/>
+    <Route path='/wishlist' element={<Master Rcf={Wishlist}/>}/>
     {/* <Route path='/brands' element={<Master Rcf={Brands}/>}/> */}
     <Route path='/login' element={<Login/>}/>
 <Route path='/search' element={<Master Rcf={Search}      />}/>

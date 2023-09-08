@@ -3,6 +3,7 @@ import Authuser from '../authentication/Authuser';
 
 const Shopingcart = () => {
 	const{http,token}=Authuser();
+	const [check,setCheck]=useState([]);
 	const[Cartproduct,setCartproduct]=useState([]);
   const[Cartcount,setCartcount]=useState([]);
   
@@ -11,10 +12,19 @@ const Shopingcart = () => {
 		  setCartproduct(res.data.cart);
 		  setCartcount(res.data.cart.length);
 		
-		})
+		}) .catch((error) => {
+			console.log("Error", error);
+		  });
+		  }
+		  const checkout=()=>{
+			http.get(`/get_all_orders`).then((response)=>{
+				setCheck(response);
+
+			})
 		  }
 		  useEffect(()=>{
 			getcartproduct();
+			checkout();
 		  },[token])
   return (
     <div>
@@ -57,7 +67,7 @@ const Shopingcart = () => {
 										</div>
 									</td>
 									<td class="column-2">{ele.english_name}</td>
-									<td class="column-3">{ele.cart_price}</td>
+									<td class="column-3">{ele.mrp_price}</td>
 									<td class="column-4">
 										<div class="wrap-num-product flex-w m-l-auto m-r-0">
 											<div class="btn-num-product-down cl8 hov-btn3 trans-04 flex-c-m">
@@ -71,7 +81,8 @@ const Shopingcart = () => {
 											</div>
 										</div>
 									</td>
-									<td class="column-5">$ 36.00</td>
+									<td class="column-5">{ele.sale_price
+}</td>
 								</tr>
 
 )) }
@@ -99,19 +110,24 @@ const Shopingcart = () => {
 						<h4 class="mtext-109 cl2 p-b-30">
 							Cart Totals
 						</h4>
-
+						
 						<div class="flex-w flex-t bor12 p-b-13">
 							<div class="size-208">
 								<span class="stext-110 cl2">
 									Subtotal:
 								</span>
 							</div>
-
+							{Cartproduct.map((ele)=>(
 							<div class="size-209">
+							
 								<span class="mtext-110 cl2">
-									$79.65
+									enwjj
+								{  ele.total_amount
+}
 								</span>
+							
 							</div>
+							))}
 						</div>
 
 						<div class="flex-w flex-t bor12 p-t-15 p-b-30">
@@ -136,6 +152,7 @@ const Shopingcart = () => {
 											<option>Select a country...</option>
 											<option>USA</option>
 											<option>UK</option>
+											<option>India</option>
 										</select>
 										<div class="dropDownSelect2"></div>
 									</div>
@@ -167,12 +184,13 @@ const Shopingcart = () => {
 
 							<div class="size-209 p-t-1">
 								<span class="mtext-110 cl2">
-									$79.65
+									
+								
 								</span>
 							</div>
 						</div>
 
-						<button class="flex-c-m stext-101 cl0 size-116 bg3 bor14 hov-btn3 p-lr-15 trans-04 pointer">
+						<button class="flex-c-m stext-101 cl0 size-116 bg3 bor14 hov-btn3 p-lr-15 trans-04 pointer" onClick={checkout()}>
 							Proceed to Checkout
 						</button>
 					</div>

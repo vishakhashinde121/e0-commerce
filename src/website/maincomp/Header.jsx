@@ -4,14 +4,15 @@ import { Dropdown } from "react-bootstrap";
 import { Link, useSearchParams } from "react-router-dom";
 import "./header.css";
 import Authuser from "../authentication/Authuser";
-import { Button } from "bootstrap";
+
 const Header = () => {
+  const { user, logout, token,http } = Authuser();
   const [isMobileMenuVisible, setIsMobileMenuVisible] = useState(false);
   const [isSearchModalVisible, setSearchModalVisible] = useState(false);
 
    const [isCartOpen, setIsCartOpen] = useState(false);
-   const { user, logout, token,http } = Authuser();
-   console.log("token",token);
+  const[removecart,setRemovecart]=useState(false);
+   
    const [brand, setbrand] = useState([]);
   const [scatg, setscatg] = useState([]);
   const [subcat, setsubcat] = useState([]);
@@ -23,7 +24,7 @@ const Header = () => {
   const [param,setparam]=useSearchParams();
   //wishlist
   const[wish,setWish]=useState([]);
-  const[wishcount,setWishcount]=useState(0);
+  const[wishcount,setWishcount]=useState([]);
   
     const handleSearchChange = event => {
       setSearchTerm(event.target.value);
@@ -64,6 +65,10 @@ const Header = () => {
   const handmouseleave = () => {
     setshowbrandmenu(false);
   };
+  const remove=()=>{
+  
+  setRemovecart(false);
+  }
 
   const getbrand=()=>{
     http.get(`/brands`)
@@ -73,16 +78,21 @@ const Header = () => {
     })
     
   }
-// const Wishlist=(product_id)=>{
-//   http.get(`add-to-wishlist/${product_id}`)
-//   .then((resp)=>{
-//     console.log(resp)
-//     setWish(resp.data.wishlist)
-//     setWishcount(resp.data.wishlist.length)
+const Wishlist=(product_id)=>{
+  http.get(`add-to-wishlist/${product_id}`)
+  .then((resp)=>{
+    console.log(resp.data)
+    setWishcount(resp.data.wishlist.length)
+    alert('product added')
+    
+    // setWish(resp.wishlist)
+    // 
 
 
-// })
-// }
+}).catch((error)=>{
+  console.log("error"+error);
+})
+}
   const getcatagory = () => {
     http.get("/categories")
    
@@ -135,6 +145,7 @@ http.get(`/get-cart-list`).then((res)=>{
       useEffect(()=>{ 
         if (token) {
           getcartproduct();
+          Wishlist();
         }
         
 
@@ -188,7 +199,7 @@ http.get(`/get-cart-list`).then((res)=>{
               {/* <!-- Logo desktop -->		 */}
               <a href="#" class="logo">
                 <img
-                  src="https://vsmart.ajspire.com/images/logo1.png"
+                  src="https://www.48hourslogo.com/48hourslogo_data/2020/03/07/94379_1583572417.jpg"
                   alt="IMG-LOGO"
                 />
               </a>
@@ -376,27 +387,42 @@ http.get(`/get-cart-list`).then((res)=>{
                 </div>
 
                 
-                <div class="wrap-icon-header flex-w flex-r-m">
+                
 						
-{token?
-(
-<div className={`icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 icon-header-noti js-show-cart`} data-notify={Cartcount} onClick={handleShowCart}>
-        <i className="zmdi zmdi-shopping-cart"></i>
-      </div>)
-      :
-      (<div className={`icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 icon-header-noti js-show-cart`} >
-        <i className="zmdi zmdi-shopping-cart"></i>
-      </div>)
-      }
+                {token ? (
+  <div className="wrap-icon-header flex-w flex-r-m">
+    <div
+      className={`icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 icon-header-noti js-show-cart`}
+      data-notify={Cartcount}
+      onClick={handleShowCart}
+    >
+      <i className="zmdi zmdi-shopping-cart"></i>
+      
+    </div>
+    <Link to={"/wishlist"}
+      className="dis-block icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 icon-header-noti"
+      data-notify={wishcount}
+      onClick={Wishlist}
+    >
+ <i className="zmdi zmdi-favorite-outline"></i>
+    </Link>
+  </div>
+) : (
+  <>
+    <Link to="/login">Login</Link>
+  </>
+)}
+
+						
+            
 						
 
-<Link to={'/wishlist'} class="dis-block icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 icon-header-noti" data-notify={wishcount}><i class="zmdi zmdi-favorite-outline"  ></i></Link>
 						
 					</div>
 
 
                
-              </div>
+              {/* </div> */}
             </nav>
           </div>
         </div>
@@ -407,7 +433,7 @@ http.get(`/get-cart-list`).then((res)=>{
           <div class="logo-mobile">
             <a href="">
               <img
-                src="https://vsmart.ajspire.com/images/logo1.png"
+                src="https://www.48hourslogo.com/48hourslogo_data/2020/03/07/94379_1583572417.jpg"
                 alt="IMG-LOGO"
               />
             </a>
@@ -416,21 +442,54 @@ http.get(`/get-cart-list`).then((res)=>{
           {/* <!-- Icon header --> */}
           <div class="wrap-icon-header flex-w flex-r-m m-r-15">
             <div class="icon-header-item cl2 hov-cl1 trans-04 p-r-11 js-show-modal-search">
-              <i class="zmdi zmdi-search"></i>
-            </div>
+              
+            <i
+                      class="zmdi zmdi-search"
+                      onClick={handleSearchIconClick}
+                    ></i>
+                    {isSearchModalVisible ?(
+                      <div className="search-modal" >
+                        <div className="search-modal-content">
+                      <i class="fa fa-times"  aria-hidden="true" onClick={handleCloseModal} style={{marginLeft:"290px"}}/>
+                        <div className="search">
+                        <input
+        type="text"
+        placeholder="Search..."
+        value={searchTerm}
+        onChange={handleSearchChange}
+      />
+<Link to={`/search?q=${encodeURIComponent(searchTerm)}`}
+      onChange={()=>setparam({q:searchTerm})}>
+      <i class="fa fa-search"></i>
+      </Link>
+</div>
+                        </div>
+                      </div>
+                    ):( <></>)}           </div>
 
-            <div
-              className="icon-header-item cl2 hov-cl1 trans-04 p-r-11 p-l-10 icon-header-noti js-show-cart"
-              data-notify="2"
-            >
-              <i className="zmdi zmdi-shopping-cart"></i>
-            </div>
-
-            <a
-              href="#"
-              class="dis-block icon-header-item cl2 hov-cl1 trans-04 p-r-11 p-l-10 icon-header-noti"
-              data-notify="0"
-            ></a>
+{token ? (
+  <div className="wrap-icon-header flex-w flex-r-m">
+    <div
+      className={`icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 icon-header-noti js-show-cart`}
+      data-notify={Cartcount}
+      onClick={handleShowCart}
+    >
+      <i className="zmdi zmdi-shopping-cart"></i>
+      
+    </div>
+    <Link to={"/wishlist"}
+      className="dis-block icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 icon-header-noti"
+      data-notify={wishcount}
+      onClick={Wishlist}
+    >
+ <i className="zmdi zmdi-favorite-outline"></i>
+    </Link>
+  </div>
+) : (
+  <>
+    <Link to="/login">Login</Link>
+  </>
+)} 
           </div>
 
           {/* <!-- Button show menu --> */}
@@ -528,7 +587,7 @@ http.get(`/get-cart-list`).then((res)=>{
         {/* <!-- Menu Mobile --> */}
 
         {/* <!-- Modal Search --> */}
-       /
+       
       </header>
       {/* <!-- cart--! */}
       <div className={`wrap-header-cart js-panel-cart ${isCartOpen ? 'show-header-cart' : ''}`}>
@@ -546,9 +605,13 @@ http.get(`/get-cart-list`).then((res)=>{
       <ul className="header-cart-wrapitem w-full">
         
         
-        <li className="header-cart-item flex-w flex-t m-b-12">
+        <li className="header-cart-item flex-w flex-t m-b-12" >
+         
+
         {Cartproduct.map((el)=>(
 <>
+<i classname="zmdi zmdi-close" onclick={remove}>
+</i>
           <div className="header-cart-item-img">
           <img  src={`https://vsmart.ajspire.com/uploads/product_image/${el.product_image}`} alt="" />
           </div>
@@ -581,7 +644,57 @@ http.get(`/get-cart-list`).then((res)=>{
     </div>
   </div>
 </div>
-
+    {/* !----wishlist--- */}
+    {/* <div className={`wrap-header-cart js-panel-cart ${isCartOpen ? 'show-header-cart' : ''}`}>
+  <div className="s-full js-hide-cart" />
+  <div className="header-cart flex-col-l p-l-65 p-r-25">
+    <div className="header-cart-title flex-w flex-sb-m p-b-8">
+      <span className="mtext-103 cl2">
+        Your Wishlist
+      </span>
+      <div className="fs-35 lh-10 cl2 p-lr-5 pointer hov-cl1 trans-04 js-hide-cart">
+        <i className="zmdi zmdi-close"  onClick={handleHideCart}/>
+      </div>
+    </div>
+    <div className="header-cart-content flex-w js-pscroll">
+      <ul className="header-cart-wrapitem w-full">
+        
+        
+        <li className="header-cart-item flex-w flex-t m-b-12">
+        {wish.map((el)=>(
+<>
+          <div className="header-cart-item-img">
+          <img  src={`https://vsmart.ajspire.com/uploads/product_image/${el.product_image}`} alt="" />
+          </div>
+          <div className="header-cart-item-txt p-t-8">
+            <a href="#" className="header-cart-item-name m-b-18 hov-cl1 trans-04">
+              {el.english_name}
+            </a>
+            <span className="header-cart-item-info">
+              {el.cart_product_qty}x {el.cart_price}
+            </span>
+          </div>
+          </>
+           ))}
+        </li>
+       
+      
+      </ul>
+      <div className="w-full">
+        <div className="header-cart-total w-full p-tb-40">
+          {}
+        </div>
+        <div className="header-cart-buttons flex-w w-full">
+          <Link to={"/wishlist"} className="flex-c-m stext-101 cl0 size-107 bg3 bor2 hov-btn3 p-lr-15 trans-04 m-r-8 m-b-10"> View Cart</Link>
+          
+          <a href="shoping-cart.html" className="flex-c-m stext-101 cl0 size-107 bg3 bor2 hov-btn3 p-lr-15 trans-04 m-b-10">
+            Check Out
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div> */}
     </>
 	
   );

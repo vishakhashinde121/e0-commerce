@@ -14,11 +14,7 @@ const Blog = () => {
     <div className="block2">
       <div className="block2-pic hov-img0">
         {/* <img src="images/product-01.jpg" alt="IMG-PRODUCT" /> */}
-        <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Consequuntur rerum explicabo ea consequatur illo, sunt, incidunt aspernatur quod assumenda, laboriosam veniam dolorum voluptate fugit nobis? Dolore omnis sapiente minima voluptate.</p>
-
-        <a href="#" className="block2-btn flex-c-m stext-103 cl2 size-102 bg0 bor2 hov-btn1 p-lr-15 trans-04 js-show-modal1">
-          Read More
-        </a>
+        <h3>No BLog Added</h3>
       </div>
       <div className="block2-txt flex-w flex-t p-t-14">
         <div className="block2-txt-child1 flex-col-l ">

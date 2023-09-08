@@ -1,23 +1,22 @@
 import React, { useEffect, useState } from "react";
 import Authuser from "../authentication/Authuser";
+import { Link } from "react-router-dom";
 
 const Product = () => {  
   const [product, setproduct] = useState([]);
   
   //const[Count,setCount]=useState([])
   const{http,token}=Authuser();
+  const getproduct=()=>{
+http.get(`/shop`).then((response)=>{
+  setproduct(response.data.product.data);
+  console.log(response.data.product.data);
+})
+  }
   
   useEffect(() => {
-    fetch(`https://vsmart.ajspire.com/api/products`)
-      .then((response) => {
-        console.log(response);
-        return response.json();
-      })
-      .then((data) => {
-        console.log(data);
-        setproduct(data.products.data);
-      });
-    }, []);
+    getproduct();
+    }, [token]);
     
 
   const addtoCart=(product_id)=>{
@@ -28,6 +27,15 @@ console.log(res.data);
 .catch((error) => {
   console.log("Error", error);
 });
+}
+const addtowishlist=(product_id)=>{
+  http.get(`/add-to-wishlist/${product_id}`)
+  .then((response)=>{
+    console.log(response.data);
+  })
+  .catch((error)=>{
+    console.error('error adding product to cart:',error);
+  })
 }
 
   return (
@@ -74,7 +82,8 @@ console.log(res.data);
 
             <span class="stext-105 cl3">
               
-              MRP<del>{el.mrp_price}</del> {el.sale_price}
+              MRP<del>
+                <span className="text-danger">{el.mrp_price}</span></del> <span className="text-success">{el.sale_price}</span> 
 
               
             </span>
@@ -85,16 +94,16 @@ console.log(res.data);
               href="#"
               class="btn-addwish-b2 dis-block pos-relative js-addwish-b2"
             >
-              <img
-                class="icon-heart1 dis-block trans-04"
-                src="images/icons/icon-heart-01.png"
-                alt="ICON"
-              />
-              <img
-                class="icon-heart2 dis-block trans-04 ab-t-l"
-                src="images/icons/icon-heart-02.png"
-                alt="ICON"
-              />
+             {token ? (
+  
+    <Link to="/" data-toggle="tooltip" onClick={() => addtowishlist(el.product_id)}data-placement="right"title="Add to Wishlist" > 
+      <i className="far fa-heart"/>
+      
+    </Link>
+  
+) : (
+  null
+)}
              
              <a
             href="#"
