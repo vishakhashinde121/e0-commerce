@@ -83,7 +83,7 @@ const Wishlist=(product_id)=>{
   .then((resp)=>{
     console.log(resp.data)
     setWishcount(resp.data.wishlist.length)
-    alert('product added')
+    alert('product added');
     
     // setWish(resp.wishlist)
     // 

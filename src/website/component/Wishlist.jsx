@@ -14,8 +14,9 @@ http.get(`/get-wishlist`)
   setwishcart(response.data.wishlist);
 })
   }
-  const removewishlist=(wishlistNumber)=>{
+  const removewishlist=(wishlistNumber)=>{ 
     http.get(`/remove-from-wishlist/${wishlistNumber}`).then((response)=>{
+       response.preventDefault();
       setwishId(wishlistNumber)
 alert("product removed succesfully");
     }).catch((error)=>{

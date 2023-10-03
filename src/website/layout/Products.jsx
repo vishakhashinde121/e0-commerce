@@ -103,7 +103,7 @@ const add=()=>{
                       >
                        {token ? (
             
-              <Link to="/" data-toggle="tooltip" onClick={() => addtowishlist(el.product_id)}data-placement="right"title="Add to Wishlist" > 
+              <Link to="" data-toggle="tooltip" onClick={() => addtowishlist(el.product_id)}data-placement="right"title="Add to Wishlist" > 
                 <i className="far fa-heart"/>
                 
               </Link>
