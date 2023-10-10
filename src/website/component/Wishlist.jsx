@@ -97,8 +97,8 @@ alert("product removed succesfully");
                   </td>
                   <td className="remove-pr">
                     <a href="#">
-                      <button onClick={removewishlist(e.wishe_id)}></button>
-                      <i className="fas fa-times" />
+                      <button onClick={removewishlist(e.wishe_id)}>
+                      <i className="fas fa-times" /> </button>
                     </a>
                   </td>
                 </tr>

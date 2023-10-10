@@ -390,6 +390,7 @@ http.get(`/get-cart-list`).then((res)=>{
                 
 						
                 {token ? (
+  <>
   <div className="wrap-icon-header flex-w flex-r-m">
     <div
       className={`icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 icon-header-noti js-show-cart`}
@@ -397,16 +398,23 @@ http.get(`/get-cart-list`).then((res)=>{
       onClick={handleShowCart}
     >
       <i className="zmdi zmdi-shopping-cart"></i>
-      
     </div>
-    <Link to={"/wishlist"}
-      className="dis-block icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 icon-header-noti"
-      data-notify={wishcount}
-      onClick={Wishlist}
-    >
- <i className="zmdi zmdi-favorite-outline"></i>
-    </Link>
   </div>
+
+  <div className="wrap-icon-header flex-w flex-r-m">
+    <div>
+      <Link
+        to={"/wishlist"}
+        className={`icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 icon-header-noti js-show-cart`}
+        data-notify={wishcount}
+        onClick={Wishlist}
+      >
+        <i className="zmdi zmdi-favorite-outline" />
+      </Link>
+    </div>
+  </div>
+</>
+
 ) : (
   <>
     <Link to="/login">Login</Link>
