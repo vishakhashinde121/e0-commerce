@@ -115,7 +115,7 @@ const Product = () => {
 
                     <a
                       href="#"
-                      class="block2-btn flex-c-m stext-103 cl2 size-102 bg0 bor2 "
+                      class="block2-btn flex-c-m stext-103 cl2 size-102 bg0 bor2"
                     >
                       &#8377;{el.mrp_price - el.sale_price} Off
                     </a>
